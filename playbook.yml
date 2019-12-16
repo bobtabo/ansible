@@ -2,6 +2,9 @@
   become: yes
   user: vagrant
   vars:
+    db_name: hoge
+    db_user: fuga
+    db_password: hidebu
   tasks:
     # SELinux無効
     - name: SELinuxのDisable設定
@@ -92,11 +95,16 @@
     - name: MariaDBを起動
       service: name=mariadb state=started enabled=yes
 
+    - name: 必須ライブラリをインストール
+      yum: name={{ item }} state=present enablerepo=epel
+      with_items:
+        - MySQL-python
+
     - name: DB作成
-      mysql_db: name=hoge state=present
+      mysql_db: name={{ db_name }} state=present
 
     - name: ユーザー作成
-      mysql_user: name=fuga password=hidebu priv=*.*:ALL state=present host={{item}}
+      mysql_user: name={{ db_user }} password={{ db_password }} priv=*.*:ALL state=present host={{item}}
       with_items:
         - '%'
         - 'localhost'
