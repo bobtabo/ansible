@@ -64,28 +64,22 @@
 
     - name: PHP-FPM設定
       lineinfile: 
-        dest=/etc/php-fpm/www.conf
-        regexp='{{ item.regexp }}'
-        line='{{ item.line }}'
+        dest=/etc/php-fpm.d/www.conf
+        regexp="{{ item.regexp }}"
+        line="{{ item.line }}"
       with_items:
-        - regexp: '^user = apache'
-          line: 'user = nginx'
-        - regexp: '^group = apache'
-          line: 'group = nginx'
-        - regexp: '^listen = 127.0.0.1:9000'
-          line: 'listen = /var/run/php-fpm/php-fpm.sock'
-        - regexp: '^;listen.owner = nobody'
-          line: 'listen.owner = nginx'
-        - regexp: '^;listen.group = nobody'
-          line: 'listen.group = nginx'
-        - regexp: '^;listen.mode = 0660'
-          line: ';listen.mode = 0660'
+        - { regexp: '^user = apache', line: 'user = nginx' }
+        - { regexp: '^group = apache', line: 'group = nginx' }
+        - { regexp: '^listen = 127.0.0.1:9000', line: 'listen = /var/run/php-fpm/php-fpm.sock' }
+        - { regexp: '^;listen.owner = nobody', line: 'listen.owner = nginx' }
+        - { regexp: '^;listen.group = nobody', line: 'listen.group = nginx' }
+        - { regexp: '^;listen.mode = 0660', line: 'listen.mode = 0660' }
 
 #     - name: Nginx設定
 
     # MariaDB
     - name: MariaDBのリポジトリを追加
-      command: >
+      shell: |
         curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash
         curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash -s -- --mariadb-server-version=mariadb-10.3
 
