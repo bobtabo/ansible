@@ -1,3 +1,6 @@
+#
+# Vagrantの設定
+#
 - hosts: all
   become: yes
   user: vagrant
@@ -7,42 +10,10 @@
     db_password: hidebu
   roles:
     - common
-    - nginx
     - php
+    - nginx
     - mariadb
   tasks:
-    # SELinux無効
-    - name: SELinuxのDisable設定
-      selinux: state=disabled
-
-    # ファイアーウォール無効
-    - name: ファイアーウォール無効
-      systemd:
-        name: firewalld
-        state: stopped
-        enabled: false
-
-    # IPV6無効
-    - name: IPV6無効
-      replace: 
-        dest=/etc/default/grub
-        regexp='GRUB_CMDLINE_LINUX="crashkernel=auto spectre_v2=retpoline rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet biosdevname=0 net.ifnames=0"'
-        replace='GRUB_CMDLINE_LINUX="ipv6.disable=1 crashkernel=auto spectre_v2=retpoline rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet biosdevname=0 net.ifnames=0"'
-
-    # PHP-FPM起動
-    - name: PHP-FPMを起動
-      service:
-        name: php-fpm
-        state: started
-        enabled: yes
-
-    # Nginx起動
-    - name: Nginxを起動
-      service:
-        name: nginx.service
-        state: started
-        enabled: yes
-
-    # Gitのインストール
     - name: Gitのインストール
-      yum: name=git
+      yum:
+        name: git

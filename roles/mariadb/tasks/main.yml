@@ -8,10 +8,7 @@
 
 - name: MariaDBをインストール
   yum:
-    name: "{{item}}"
-  with_items:
-    - MariaDB-server
-    - MariaDB-client
+    name: ['MariaDB-server', 'MariaDB-client']
 
 - name: MariaDBを起動
   service:
@@ -21,11 +18,9 @@
 
 - name: 必須ライブラリをインストール
   yum:
-    name: "{{ item }}"
+    name: MySQL-python
     state: present
     enablerepo: epel
-  with_items:
-    - MySQL-python
 
 - name: DB作成
   mysql_db:
