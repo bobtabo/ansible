@@ -1,0 +1,9 @@
+#
+# 必須なインストールおよび設定
+#
+- name: yumリポジトリの登録
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - epel-release
+    - http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
