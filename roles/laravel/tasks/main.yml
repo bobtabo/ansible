@@ -31,6 +31,12 @@
     - { regexp: '^DB_USERNAME=forge', line: 'DB_USERNAME={{ db_user }}' }
     - { regexp: '^DB_PASSWORD=forge', line: 'DB_PASSWORD={{ db_password }}' }
 
+- name: migration
+  become: no
+  command: |
+    php artisan migrate
+    php artisan db:seed
+
 - name: composer.json置き換え
   become: no
   template:
