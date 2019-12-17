@@ -1,0 +1,40 @@
+#
+# Laravelのインストールおよび設定
+#
+- name: Composerのインストール
+  become: no
+  warn: false
+  shell: curl https://getcomposer.org/installer | php
+
+- name: Composerのインストール2
+  become: yes
+  command: mv -i composer.phar /usr/local/bin/composer
+
+- name: Laravelプロジェクト作成
+  become: no
+  command: composer create-project --prefer-dist laravel/laravel=6.* laravel6
+
+- name: Laravelの設定
+  become: no
+  command: |
+    cd laravel6
+    chmod -R 777 storage
+    chmod -R 777 bootstrap/cache
+
+- name: .env編集
+  become: no
+  lineinfile: 
+    dest: /home/vagrant/laravel6/.env
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^DB_DATABASE=forge', line: 'DB_DATABASE={{ db_name }}' }
+    - { regexp: '^DB_USERNAME=forge', line: 'DB_USERNAME={{ db_user }}' }
+    - { regexp: '^DB_PASSWORD=forge', line: 'DB_PASSWORD={{ db_password }}' }
+
+- name: composer.json置き換え
+  become: no
+  template:
+    src: composer.json.j2
+    dest: /home/vagrant/laravel6/composer.json
+  notify: laravel handler
