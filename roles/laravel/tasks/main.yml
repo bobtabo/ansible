@@ -3,7 +3,6 @@
 #
 - name: Composerのインストール
   become: no
-  warn: false
   shell: curl https://getcomposer.org/installer | php
 
 - name: Composerのインストール2
