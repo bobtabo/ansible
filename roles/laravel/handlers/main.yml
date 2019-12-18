@@ -3,12 +3,15 @@
 #
 - name: composer update
   become: no
-  command: composer update
+  composer:
+    command: update
+    working_dir: "{{ laravel_home }}"
   listen: laravel handler
 
 - name: clear laravel
   become: no
   command: |
+    cd "{{ laravel_home }}"
     php artisan view:clear
     php artisan cache:clear
     php artisan config:clear
@@ -20,4 +23,12 @@
     php artisan ide-helper:models -N
     php artisan ide-helper:meta
     find . -name '._.DS_Store' -type f -ls -delete
+  listen: laravel handler
+
+- name: migration
+  become: no
+  command: |
+    cd "{{ laravel_home }}"
+    php artisan migrate
+    php artisan db:seed
   listen: laravel handler

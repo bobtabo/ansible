@@ -8,6 +8,7 @@
     db_name: hoge
     db_user: fuga
     db_password: hidebu
+    laravel_home: /home/vagrant/laravel6
   roles:
     - common
     - php
