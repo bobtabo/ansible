@@ -11,8 +11,7 @@
     laravel_home: /home/vagrant/laravel6
     app_name: hoge
     app_url: http://hoge.local
-    ssh_user: "abeshi"
-    ssh_password: "hidebu"
+    ssh_home: /home/vagrant/.ssh
   roles:
     - common
     - php
