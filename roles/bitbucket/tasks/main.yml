@@ -1,0 +1,45 @@
+#
+# BitbucketのSSH接続設定
+#
+- name: ディレクトリ作成
+  file:
+    path: "/home/vagrant/.ssh"
+    state: directory
+    mode: 0700
+
+- name: キー作成
+  become: no
+  openssh_keypair:
+    path: "/home/vagrant/.ssh/id_rsa"
+#    name: "{{ ssh_user }}"
+#    password: "{{ ssh_password | password_hash('sha512') }}"
+
+- name: 公開キー出力
+  become: no
+  shell: cat /home/vagrant/.ssh/id_rsa.pub
+  register: result
+
+- name: 公開キー出力結果
+  debug:
+    msg: ”{{ result.stdout }}”
+
+- name: 設定ファイル作成
+  become: no
+  shell: |
+    cd /home/vagrant/.ssh
+    touch config
+    chmod 700 config
+
+- name: 接続設定
+  become: no
+  lineinfile:
+    dest: ~/.ssh/config
+    line: "{{ item }}"
+  with_items:
+    - 'Host bitbucket.org'
+    - '  HostName bitbucket.org'
+    - '  IdentityFile ~/.ssh/id_rsa'
+    - '  User git'
+    - '  Port 22'
+    - '  TCPKeepAlive yes'
+    - '  IdentitiesOnly yes'

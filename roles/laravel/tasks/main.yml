@@ -1,7 +1,7 @@
 #
 # Laravelのインストールおよび設定
 #
-- name: Composerのインストール
+- name: Composerのインストール1
   become: no
   shell: curl https://getcomposer.org/installer | php
 
@@ -12,6 +12,13 @@
 - name: Laravelプロジェクト作成
   become: no
   command: composer create-project --prefer-dist laravel/laravel=6.* laravel6
+
+- name: Laravelパッケージの追加
+  become: no
+  command: |
+    cd "{{ laravel_home }}"
+    composer require --dev barryvdh/laravel-ide-helper
+    composer require --dev squizlabs/php_codesniffer
 
 - name: Laravelの設定
   become: no
@@ -32,10 +39,3 @@
     - { regexp: "^DB_DATABASE=laravel", line: "DB_DATABASE={{ db_name }}" }
     - { regexp: "^DB_USERNAME=root", line: "DB_USERNAME={{ db_user }}" }
     - { regexp: "^DB_PASSWORD=", line: "DB_PASSWORD={{ db_password }}" }
-
-- name: composer.json置き換え
-  become: no
-  template:
-    src: composer.json.j2
-    dest: "{{ laravel_home }}/composer.json"
-  notify: laravel handler

@@ -1,13 +1,6 @@
 #
 # Laravelハンドラ
 #
-- name: composer update
-  become: no
-  composer:
-    command: update
-    working_dir: "{{ laravel_home }}"
-  listen: laravel handler
-
 - name: clear laravel
   become: no
   command: |

@@ -11,12 +11,15 @@
     laravel_home: /home/vagrant/laravel6
     app_name: hoge
     app_url: http://hoge.local
+    ssh_user: "abeshi"
+    ssh_password: "hidebu"
   roles:
     - common
     - php
     - nginx
     - mariadb
     - laravel
+    - bitbucket
   tasks:
     - name: Gitのインストール
       yum:
