@@ -20,6 +20,10 @@
     - laravel
     - bitbucket
   tasks:
+    - name: Nginxが/home/vagrant配下を実行できるように権限変更
+      become: no
+      command: chmod 701 /home/vagrant
+
     - name: Gitのインストール
       yum:
         name: git
