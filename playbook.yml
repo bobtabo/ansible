@@ -8,9 +8,9 @@
     db_name: hoge
     db_user: fuga
     db_password: hidebu
-    laravel_home: /home/vagrant/laravel6
     app_name: hoge
     app_url: http://hoge.local
+    laravel_home: /home/vagrant/{{ app_name }}
     ssh_home: /home/vagrant/.ssh
   roles:
     - common
