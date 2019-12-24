@@ -1,7 +1,7 @@
 #
 # Laravelハンドラ
 #
-- name: clear laravel
+- name: いろいろクリア
   become: no
   command: |
     cd "{{ laravel_home }}"
@@ -18,10 +18,25 @@
     find . -name '._.DS_Store' -type f -ls -delete
   listen: laravel handler
 
-- name: migration
+- name: マイグレーション
   become: no
   command: |
     cd "{{ laravel_home }}"
     php artisan migrate
     php artisan db:seed
   listen: laravel handler
+
+- name: パーミッション変更
+  become: no
+  command: |
+    cd "{{ laravel_home }}"
+    chmod -R 777 storage
+    chmod -R 777 bootstrap/cache
+  listen: laravel handler
+
+#- name: Laravelの設定2
+#  become: yes
+#  command: |
+#    cd "{{ laravel_home }}"
+#    chown nginx:nginx storage/logs
+#    chown nginx:nginx storage/framework/views

@@ -25,20 +25,6 @@
     composer require --dev barryvdh/laravel-ide-helper
     composer require --dev squizlabs/php_codesniffer
 
-- name: Laravelの設定1
-  become: no
-  command: |
-    cd "{{ laravel_home }}"
-    chmod -R 777 storage
-    chmod -R 777 bootstrap/cache
-
-- name: Laravelの設定2
-  become: yes
-  command: |
-    cd "{{ laravel_home }}"
-    chown nginx:nginx storage/logs
-    chown nginx:nginx storage/framework/views
-
 - name: .env編集
   become: no
   lineinfile: 
