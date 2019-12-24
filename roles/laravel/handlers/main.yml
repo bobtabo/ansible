@@ -40,3 +40,4 @@
     cd "{{ laravel_home }}"
     chown nginx:nginx storage/logs
     chown nginx:nginx storage/framework/views
+  listen: laravel handler
