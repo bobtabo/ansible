@@ -37,3 +37,5 @@
     - { regexp: "^DB_DATABASE=laravel", line: "DB_DATABASE={{ db_name }}" }
     - { regexp: "^DB_USERNAME=root", line: "DB_USERNAME={{ db_user }}" }
     - { regexp: "^DB_PASSWORD=", line: "DB_PASSWORD={{ db_password }}" }
+  notify:
+    - laravel handler
