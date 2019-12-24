@@ -34,9 +34,9 @@
     chmod -R 777 bootstrap/cache
   listen: laravel handler
 
-#- name: Laravelの設定2
-#  become: yes
-#  command: |
-#    cd "{{ laravel_home }}"
-#    chown nginx:nginx storage/logs
-#    chown nginx:nginx storage/framework/views
+- name: 所有者を変更
+  become: yes
+  command: |
+    cd "{{ laravel_home }}"
+    chown nginx:nginx storage/logs
+    chown nginx:nginx storage/framework/views
