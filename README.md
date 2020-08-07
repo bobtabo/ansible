@@ -1,3 +1,6 @@
+この記事用です
+https://qiita.com/_bobtabo_/items/28741feef5a29e7f0275
+
 # インストールするもの
 * PHP（PHP-FPM）7.3.x
 * Nginx 最新版
